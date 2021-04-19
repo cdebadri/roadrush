@@ -2,6 +2,8 @@ import * as Phaser from 'phaser'
 import Road from '../components/Road';
 import Model from '../components/Model';
 import Controller from '../components/Controller';
+import Scorebox from '../components/Scorebox';
+import Grid from '../utils/Grid';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -29,6 +31,14 @@ export default class PlayScene extends Phaser.Scene {
     window.emitter = new Phaser.Events.EventEmitter();
     window.controller = new Controller();
     window.model = new Model();
+
+    const grid = new Grid({ scene: this });
+    grid.show();
+
+    this.sb = new Scorebox({ scene: this });
+    // this.sb.x = game.config.width - 50;
+    // this.sb.y = 50;
+    grid.placeAt(4, 0, this.sb);
 
     this.road = new Road({ scene: this });
     this.road.makeLines();

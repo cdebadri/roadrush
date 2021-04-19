@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import * as Align from '../utils/Align';
+import * as constants from '../utils/Constants';
 
 export default class Road extends Phaser.GameObjects.Container {
 	constructor(config) {
@@ -108,6 +109,7 @@ export default class Road extends Phaser.GameObjects.Container {
     }
     
     if (this.obstacle.y > game.config.height) {
+      emitter.emit(constants.UPDATE_POINTS, 1);
       this.obstacle.destroy();
       this.addOstacles();
     }

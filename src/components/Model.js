@@ -1,3 +1,5 @@
+import * as constants from '../utils/Constants';
+
 export default class Model {
 	constructor(props) {
 	  this._score = 0;
@@ -5,6 +7,7 @@ export default class Model {
 
 	set score(val) {
 		this._score = val;
+		emitter.emit(constants.SCORE_UPDATED);
 	}
 
 	get score() {
