@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser'
-// import BootScene from './scenes/BootScene'
+import BootScene from './scenes/BootScene'
 import PlayScene from './scenes/PlayScene'
-
+import GameOver from './scenes/GameOver';
 
 declare global {
   interface Window {
@@ -22,7 +22,7 @@ if (isMobile === -1) {
     parent: 'app',
     width: 480,
     height: 640,
-    scene: [PlayScene],
+    scene: [BootScene, PlayScene, GameOver],
   }
 } else {
   config = {
@@ -30,7 +30,7 @@ if (isMobile === -1) {
     parent: 'app',
     width: window.innerWidth,
     height: window.innerHeight,
-    scene: [PlayScene],
+    scene: [BootScene, PlayScene, GameOver],
   }
 }
 

@@ -20,7 +20,6 @@ export default class Grid {
 		this.graphics = this.scene.add.graphics();
 		this.graphics.lineStyle(2, 0xff0000);
 
-		console.log(this.config.width);
 		for (let i = 0; i < this.config.width; i += this.cwidth) {
 			this.graphics.moveTo(i, 0);
 			this.graphics.lineTo(i, this.config.height);
@@ -34,8 +33,28 @@ export default class Grid {
 		this.graphics.strokePath();
 	}
 
-	placeAt(x, y, obj) {
-		obj.x = x * this.cwidth + this.cwidth / 2;
-		obj.y = y * this.cheight + this.cheight / 2; 
+	placeAt(index, obj, corner=null) {
+		let x, y;
+		y = Math.floor(index / this.config.cols);
+		x = index - (y * this.config.cols);
+		obj.x = x * this.cwidth + (corner === null ? this.cwidth / 2 : 0);
+		obj.y = y * this.cheight + (corner === null ? this.cwidth / 2 : 0); 
+	}
+
+	showNumbers() {
+		this.show();
+
+		let count = 0;
+
+		for (let i = 0; i < this.config.rows; i++) {
+			for (let j = 0; j < this.config.cols; j++) {
+				const numText = this.config.scene.add.text(0, 0, count, {
+					color: this.config.color,
+				});
+				numText.setOrigin(0.5, 0.5);
+				this.placeAt(count, numText);
+				count++;
+			}
+		}
 	}
 }

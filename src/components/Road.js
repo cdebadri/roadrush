@@ -20,7 +20,8 @@ export default class Road extends Phaser.GameObjects.Container {
     this.lineGroup = this.scene.add.group();
     this.count = 0;
 
-    this.car = this.scene.add.sprite(this.displayWidth - 50, game.config.height * .9, 'car');
+    this.car = this.scene.add.sprite(0, 0, 'car');
+    grid.placeAt(22, this.car, 'corner');
     Align.scaleToGameW(this.car, 0.1);
     this.add(this.car);
 
@@ -57,11 +58,14 @@ export default class Road extends Phaser.GameObjects.Container {
     ];
     
     const index = Math.floor(Math.random() * 4);
-    const lane = Math.random() * 100;
+    const lane = Math.random() * 10;
+    this.obstacle = this.scene.add.sprite(0, 0, obstacles[index].key)
     
-    this.obstacle = lane > 50 
-      ? this.scene.add.sprite(this.left, 0, obstacles[index].key)
-      : this.scene.add.sprite(this.right, 0, obstacles[index].key);
+    if (lane > 5) {
+      grid.placeAt(2, this.obstacle, 'corner');
+    } else {
+      grid.placeAt(3, this.obstacle, 'corner');
+    }
     
     Align.scaleToGameW(this.obstacle, obstacles[index].scale);
     
@@ -70,10 +74,11 @@ export default class Road extends Phaser.GameObjects.Container {
   }
 
   changeLanes() {
+    emitter.emit('PLAY_SOUND', 'whoosh');
     if (this.parentContainer.car.x > this.displayWidth) {
-      this.parentContainer.car.x = this.displayWidth - 50;
+      grid.placeAt(22, this.parentContainer.car, 'corner');
     } else {
-      this.parentContainer.car.x = this.displayWidth + 50;
+      grid.placeAt(23, this.parentContainer.car, 'corner');
     }
   }
 
@@ -103,7 +108,9 @@ export default class Road extends Phaser.GameObjects.Container {
     this.obstacle.y += this.vSpace / this.obstacle.speed;
     
     if (Align.checkCollide(this.car, this.obstacle)) {
+      emitter.emit('PLAY_SOUND', 'crash');
       this.car.alpha = 0.5;
+      // this.start('GameOver');
     } else {
       this.car.alpha = 1;
     }
