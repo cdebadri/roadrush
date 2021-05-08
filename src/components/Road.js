@@ -9,10 +9,7 @@ export default class Road extends Phaser.GameObjects.Container {
 		this.scene = config.scene;
 		this.back = this.scene.add.image(game.config.width / 2, game.config.height / 2, 'road');
 
-    // this.back.displayWidth = game.config.width * .5;
-    // this.back.scaleY = this.back.scaleX;
     Align.scaleToGameW(this.back, 0.5);
-
     this.setSize(this.back.displayWidth, game.config.height);
 
     this.add(this.back);
@@ -104,17 +101,36 @@ export default class Road extends Phaser.GameObjects.Container {
     }.bind(this));
   }
 
+  gameOver() {
+    model.gameOver = true;
+    this.scene.start('GameOver');
+  }
+
   moveObstacles() {
-    this.obstacle.y += this.vSpace / this.obstacle.speed;
-    
+    if (model.gameOver) {
+      return;
+    }
+
     if (Align.checkCollide(this.car, this.obstacle)) {
       emitter.emit('PLAY_SOUND', 'crash');
-      this.car.alpha = 0.5;
-      // this.start('GameOver');
-    } else {
-      this.car.alpha = 1;
+      this.scene.tweens.add({ 
+        targets: this.car,
+        duration: 1000,
+        y: game.config.height,
+        angle: 270,  
+      });
+      this.scene.time.addEvent({
+        delay: 1000,
+        callback: this.gameOver,
+        callbackScope: this.scene,
+        loop: false,
+      })
+
+      return;
     }
-    
+
+    this.obstacle.y += this.vSpace / this.obstacle.speed; 
+
     if (this.obstacle.y > game.config.height) {
       emitter.emit(constants.UPDATE_POINTS, 1);
       this.obstacle.destroy();

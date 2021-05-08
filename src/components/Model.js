@@ -4,6 +4,15 @@ export default class Model {
 	constructor(props) {
 	  this._score = 0;
 	  this._soundOn = true;
+	  this._gameOver = false;
+	}
+
+	set gameOver(val) {
+		this._gameOver = val;
+	}
+
+	get gameOver() {
+		return this._gameOver;
 	}
 
 	set soundOn(val) {

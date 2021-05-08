@@ -18,12 +18,11 @@ export default class BootScene extends Phaser.Scene {
   create() {
     window.emitter = new Phaser.Events.EventEmitter();
     window.controller = new Controller();
-    window.grid = new Grid({ scene: this, color: '#ffffff' });
     window.model = new Model();
 
     model.soundOn = true;
     
-    grid.showNumbers();
+    // grid.showNumbers();
 
     const title = this.add.image(0, 0, 'title');
     Align.scaleToGameW(title, 0.9);

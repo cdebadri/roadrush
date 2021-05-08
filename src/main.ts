@@ -2,6 +2,7 @@ import * as Phaser from 'phaser'
 import BootScene from './scenes/BootScene'
 import PlayScene from './scenes/PlayScene'
 import GameOver from './scenes/GameOver';
+import SceneLoad from './scenes/SceneLoad';
 
 declare global {
   interface Window {
@@ -18,19 +19,19 @@ let config: GameConfig;
 
 if (isMobile === -1) {
   config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     parent: 'app',
     width: 480,
     height: 640,
-    scene: [BootScene, PlayScene, GameOver],
+    scene: [SceneLoad, BootScene, PlayScene, GameOver],
   }
 } else {
   config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     parent: 'app',
     width: window.innerWidth,
     height: window.innerHeight,
-    scene: [BootScene, PlayScene, GameOver],
+    scene: [SceneLoad, BootScene, PlayScene, GameOver],
   }
 }
 

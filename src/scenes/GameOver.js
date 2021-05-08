@@ -2,6 +2,7 @@ import * as Phaser from 'phaser'
 import ButtonWrapper from '../components/ButtonWrapper';
 import Controller from '../components/Controller';
 import Grid from '../utils/Grid';
+import * as Align from '../utils/Align';
 
 
 export default class GameOver extends Phaser.Scene {
@@ -16,6 +17,7 @@ export default class GameOver extends Phaser.Scene {
 
   create() {
     const title = this.add.image(0, 0, 'title');
+    Align.scaleToGameW(title, 0.9);
     grid.placeAt(7, title);
 
   	const buttonPlay = new ButtonWrapper({
